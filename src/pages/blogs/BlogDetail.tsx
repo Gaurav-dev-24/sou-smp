@@ -171,43 +171,43 @@ export default function BlogDetail() {
           </Link>
 
           {/* Header */}
-          <header className="mb-8">
+          <header className="mb-12 text-center flex flex-col items-center animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
             {/* Category badge */}
-            <span className={`inline-block mb-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${CATEGORY_COLORS[category] || "bg-gray-100 text-gray-600"}`}>
+            <span className={`inline-block mb-6 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] shadow-sm ${CATEGORY_COLORS[category] || "bg-gray-100 text-gray-600"}`}>
               {categoryLabel}
             </span>
 
-            <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-10 leading-[1.15] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 max-w-4xl mx-auto">
               {blog.title}
             </h1>
 
             {/* Meta row */}
-            <div className="flex flex-wrap items-center gap-4 py-5 border-y border-border/40">
+            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 py-6 border-y border-border/40 w-full mb-8">
               {/* Author */}
               <div className="flex items-center gap-3">
                 {authorImage ? (
                   <img
                     src={authorImage}
                     alt={authorName}
-                    className="h-10 w-10 rounded-full object-cover border border-border"
+                    className="h-11 w-11 rounded-full object-cover border-2 border-[#00629B]/20 shadow-sm"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   />
                 ) : (
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[#00629B] to-[#00a3ff] flex items-center justify-center text-white font-bold">
+                  <div className="h-11 w-11 rounded-full bg-gradient-to-br from-[#00629B] to-[#00a3ff] flex items-center justify-center text-white font-bold shadow-md">
                     {authorName.charAt(0).toUpperCase()}
                   </div>
                 )}
-                <div>
-                  <p className="text-sm font-bold">{authorName}</p>
-                  <p className="text-xs text-muted-foreground">Author</p>
+                <div className="text-left">
+                  <p className="text-sm font-bold leading-tight">{authorName}</p>
+                  <p className="text-[10px] text-muted-foreground uppercase font-semibold tracking-wider">Author</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground border-l border-border/40 pl-4 h-8">
-                <Calendar className="h-4 w-4" />
+              <div className="flex items-center gap-2 text-sm text-muted-foreground sm:border-l border-border/40 sm:pl-8 h-8">
+                <Calendar className="h-4 w-4 text-[#00629B]" />
                 {formatDate(blog.created_at)}
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground border-l border-border/40 pl-4 h-8">
-                <Clock className="h-4 w-4" />
+              <div className="flex items-center gap-2 text-sm text-muted-foreground border-l border-border/40 pl-8 h-8">
+                <Clock className="h-4 w-4 text-[#00629B]" />
                 {readTime} min read
               </div>
             </div>
@@ -216,9 +216,16 @@ export default function BlogDetail() {
           {/* Image Marquee (full-width, no cropping) */}
           {images.length > 0 && <ImageMarquee images={images} />}
 
-          {/* Content */}
-          <div className="prose dark:prose-invert prose-blue max-w-none text-lg leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-wrap mb-12">
-            {description}
+          {/* Content Container - Systematic & Organized */}
+          <div className="max-w-4xl mx-auto mb-16 animate-in fade-in duration-1000 delay-300 fill-mode-both">
+            <div className="relative bg-card/30 border border-border/40 rounded-3xl p-8 md:p-12 shadow-sm backdrop-blur-[2px]">
+              {/* Decorative side accent for "systematic" look */}
+              <div className="absolute left-0 top-12 bottom-12 w-1 bg-gradient-to-b from-transparent via-[#00629B]/20 to-transparent"></div>
+              
+              <div className="prose dark:prose-invert prose-blue max-w-none text-left text-lg md:text-xl leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-wrap">
+                {description}
+              </div>
+            </div>
           </div>
 
           {/* GitHub Links */}

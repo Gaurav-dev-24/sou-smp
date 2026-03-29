@@ -10,16 +10,12 @@ import { BLOG_CATEGORIES, BlogCategory } from "@/types/blog";
 
 const CATEGORY_COLORS: Record<string, string> = {
   blog: "bg-orange-100 text-orange-700 border-orange-200",
-  research: "bg-purple-100 text-purple-700 border-purple-200",
   article: "bg-blue-100 text-blue-700 border-blue-200",
-  project: "bg-green-100 text-green-700 border-green-200",
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
   blog: "Blog",
-  research: "Research Paper",
   article: "Article",
-  project: "Project Showcase",
 };
 
 interface Blog {

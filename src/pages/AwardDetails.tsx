@@ -58,10 +58,14 @@ const AwardDetails = () => {
           setAward({
             id: awardDoc.id,
             title: awardData.title || awardData.name || "",
-            date: awardData.date || "",
+            date: awardData.date || awardData.year || "",
             description: awardData.description || "",
-            recipient: awardData.recipient || "",
-            imageUrl: awardData.imageUrl || awardData.image || ""
+            recipient: awardData.recipient || awardData.studentName || "",
+            imageUrl: awardData.imageUrl || awardData.image || "",
+            pdfUrl: awardData.pdfUrl || "",
+            category: awardData.category || awardData.type || "Other",
+            winners: awardData.winners || "",
+            location: awardData.location || ""
           });
         }
       } catch (error) {
@@ -138,6 +142,18 @@ const AwardDetails = () => {
         <Button asChild variant={isDark ? "outline" : "default"} onClick={() => window.history.length > 1 ? navigate(-1) : navigate('/')}>
           <span>Back</span>
         </Button>
+      </div>
+    );
+  }
+
+  if (award.pdfUrl) {
+    return (
+      <div className="fixed inset-0 w-full h-full z-[9999] bg-white">
+        <iframe
+          src={`${award.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+          className="w-full h-full border-none"
+          title={award.title}
+        />
       </div>
     );
   }

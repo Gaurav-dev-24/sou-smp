@@ -145,7 +145,7 @@ export default function Events() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
             {filteredEvents.map((event) => (
               <div
                 key={event.id}
@@ -164,9 +164,11 @@ export default function Events() {
                     {event.date} • {event.time}
                   </p>
                   <p className="text-sm mb-4 line-clamp-2">{event.description}</p>
-                  <p className="text-sm text-muted-foreground mb-4 flex-1">
-                    <span className="font-medium">Speakers:</span> {event.speakers}
-                  </p>
+                  {event.speakers && event.speakers.trim() !== "" && (
+                    <p className="text-sm text-muted-foreground mb-4">
+                      <span className="font-medium">Speakers:</span> {event.speakers}
+                    </p>
+                  )}
                   <Button size="sm" asChild className="action-btn">
                     <Link to={`/eventdetails/${event.id}`}>Learn More</Link>
                   </Button>

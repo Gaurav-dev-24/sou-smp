@@ -211,7 +211,7 @@ export default function TeamExecutive() {
                {[1, 2].map((group) => (
                  <div key={group}>
                    <Skeleton className="h-8 w-64 mb-6 text-primary dark:text-primary-dark" />
-                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
                      {[1, 2, 3, 4, 5].map((i) => (
                        <div key={i} className="bg-white dark:bg-gray-900 glass rounded-xl shadow-md p-6 flex flex-col items-center text-center h-[340px]">
                          <Skeleton className="w-32 h-32 rounded-lg mb-4" />
@@ -240,7 +240,7 @@ export default function TeamExecutive() {
                   <div className="text-2xl font-semibold mb-6 text-primary dark:text-primary-dark">
                     {title}
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
                     {sorted.map((member) => (
                       <div
                         key={member.id}

@@ -49,7 +49,6 @@ const NAV_ITEMS: NavItem[] = [
       { title: "Faculty Advisor", href: "/team/faculty-advisor" },
       { title: "Advisory Board", href: "/team/advisory-board" },
       { title: "Executive Members", href: "/team/executive-members" },
-      { title: "Core Members", href: "/team/core-members" },
     ],
   },
   {
@@ -64,9 +63,7 @@ const NAV_ITEMS: NavItem[] = [
     title: "Blogs",
     children: [
       { title: "All Blogs", href: "/blogs" },
-      { title: "Research Paper", href: "/blogs/category/research" },
       { title: "Article", href: "/blogs/category/article" },
-      { title: "Project Showcase", href: "/blogs/category/project" },
     ],
   },
   { title: "Bylaws", href: "/bylaws" },

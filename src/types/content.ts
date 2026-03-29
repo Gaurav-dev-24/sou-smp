@@ -21,6 +21,7 @@ export type Award = {
     winners: string; // Could be a list or comma-separated string based on your data structure
     location: string;
     recipient?: string;
+    pdfUrl?: string; // For Newsletters to display directly
   };
 
 export interface TeamMember {

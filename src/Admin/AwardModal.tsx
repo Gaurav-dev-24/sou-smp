@@ -20,6 +20,7 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
   const [awardDescription, setAwardDescription] = useState<string>("");
   const [awardYear, setAwardYear] = useState<string>("");
   const [studentName, setStudentName] = useState<string>("");
+  const [pdfUrl, setPdfUrl] = useState<string>("");
 
   // Initialize form with award data if editing
   useEffect(() => {
@@ -37,6 +38,7 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
       setAwardDescription(award.description || "");
       setAwardYear(award.year || "");
       setStudentName(award.studentName || "");
+      setPdfUrl(award.pdfUrl || "");
     } else {
       resetAwardForm();
     }
@@ -51,13 +53,14 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
     setAwardDescription("");
     setAwardYear("");
     setStudentName("");
+    setPdfUrl("");
   };
 
   // Handle form submissions
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       const cleanImages = images.map(i => i.trim()).filter(i => i !== "");
       const awardData: any = {
@@ -67,6 +70,7 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
         images: cleanImages,
         description: awardDescription,
         year: awardYear,
+        pdfUrl: pdfUrl,
         ...(award ? {} : { createdAt: serverTimestamp() }),
         updatedAt: serverTimestamp(),
       };
@@ -105,7 +109,7 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-xl font-semibold">{award ? 'Edit' : 'Add New'} Award</h3>
-            <button 
+            <button
               className="text-gray-600 hover:text-gray-800"
               onClick={onClose}
             >
@@ -114,22 +118,22 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
               </svg>
             </button>
           </div>
-          
+
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-2">Award Type</label>
-              <select 
-                className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2 bg-white focus:ring-blue-500 focus:border-blue-500" 
+              <select
+                className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2 bg-white focus:ring-blue-500 focus:border-blue-500"
                 value={awardType}
                 onChange={(e) => setAwardType(e.target.value)}
                 required
               >
-              <option value="branch">Branch Achievement</option>
+                <option value="branch">Branch Achievement</option>
                 <option value="student">Student Achievement</option>
                 <option value="newsletter">Newsletter</option>
               </select>
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-2">Award Title</label>
               <input
@@ -141,7 +145,7 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
                 required
               />
             </div>
-            
+
             {awardType === "student" && (
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">Student Name</label>
@@ -155,28 +159,41 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
                 />
               </div>
             )}
-
             {awardType === "newsletter" && (
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">Newsletter Type</label>
-                <select
-                  className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2 bg-white focus:ring-blue-500 focus:border-blue-500"
-                  value={newsletterType}
-                  onChange={(e) => setNewsletterType(e.target.value)}
-                  required
-                >
-                  <option value="divya_bhaskar">Divya Bhaskar</option>
-                  <option value="general">General</option>
-                </select>
-              </div>
+              <>
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-2">Newsletter Type</label>
+                  <select
+                    className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2 bg-white focus:ring-blue-500 focus:border-blue-500"
+                    value={newsletterType}
+                    onChange={(e) => setNewsletterType(e.target.value)}
+                    required
+                  >
+                    <option value="divya_bhaskar">Divya Bhaskar</option>
+                    <option value="general">General</option>
+                  </select>
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-2">Direct PDF URL (Optional)</label>
+                  <input
+                    type="text"
+                    className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="https://example.com/newsletter.pdf"
+                    value={pdfUrl}
+                    onChange={(e) => setPdfUrl(e.target.value)}
+                  />
+                  <p className="mt-1 text-xs text-gray-500">If provided, clicking "Read More" will display this PDF directly.</p>
+                </div>
+              </>
             )}
-            
+
             <MultiImageInput
               images={images}
               onChange={setImages}
               label="Award Images"
             />
-            
+
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-2">Description</label>
               <textarea
@@ -187,7 +204,7 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
                 required
               ></textarea>
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-2">Year</label>
               <input
@@ -202,7 +219,7 @@ const AwardModal: React.FC<AwardModalProps> = ({ isOpen, onClose, award, setSucc
                 required
               />
             </div>
-            
+
             <div className="flex justify-end space-x-3 mt-6">
               <button
                 type="button"

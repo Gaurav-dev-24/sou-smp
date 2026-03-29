@@ -92,7 +92,7 @@ export default function TeamAdvisory() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="bg-white dark:bg-gray-900 glass rounded-xl shadow-md p-6 flex flex-col items-center text-center h-[340px]">
                   <Skeleton className="w-32 h-32 rounded-lg mb-4" />
@@ -108,7 +108,7 @@ export default function TeamAdvisory() {
               <p className="text-sm text-muted-foreground mt-2">No advisory board members are listed at this time.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
               {filtered.map(member => (
                 <div
                   key={member.id}
