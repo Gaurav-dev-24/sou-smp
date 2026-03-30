@@ -148,7 +148,7 @@ export default function TeamAdvisory() {
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground dark:text-gray-400 mt-2">
-                    {member.education && `Current Profession: ${member.education}`}
+                    {member.education && `: ${member.education}`}
                   </p>
                 </div>
               ))}
