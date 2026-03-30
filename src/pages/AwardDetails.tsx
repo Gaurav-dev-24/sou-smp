@@ -1,11 +1,18 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { type Award } from "../types/content";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, TrophyIcon, ArrowLeft } from "lucide-react";
+import { CalendarIcon, TrophyIcon, ArrowLeft, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
 import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
+
+// Use a reliable CDN for pdf.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
 
 const AwardDetails = () => {
   const { id } = useParams();
@@ -147,13 +154,66 @@ const AwardDetails = () => {
   }
 
   if (award.pdfUrl) {
+    // Convert Google Drive share/view links to embeddable preview URL
+    const getEmbedUrl = (url: string): { url: string; isGdrive: boolean } => {
+      // Match Google Drive file ID from various URL formats
+      const gdriveMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (gdriveMatch) {
+        return {
+          url: `https://drive.google.com/file/d/${gdriveMatch[1]}/preview`,
+          isGdrive: true,
+        };
+      }
+      return { url, isGdrive: false };
+    };
+
+    const { url: embedUrl, isGdrive } = getEmbedUrl(award.pdfUrl);
+
     return (
-      <div className="fixed inset-0 w-full h-full z-[9999] bg-white">
-        <iframe
-          src={`${award.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
-          className="w-full h-full border-none"
-          title={award.title}
-        />
+      <div className="fixed inset-0 w-full h-full z-[50] bg-gray-900 flex flex-col">
+        {/* Navigation Toolbar */}
+        <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shadow-sm flex-shrink-0">
+          <Button variant="outline" size="sm" onClick={() => window.history.length > 1 ? navigate(-1) : navigate('/')}>
+            <ArrowLeft className="h-4 w-4 mr-2" /> Back
+          </Button>
+          <h1 className="text-base md:text-lg font-bold text-gray-800 truncate px-4">{award.title}</h1>
+          <Button asChild variant="default" size="sm">
+            <a href={award.pdfUrl} target="_blank" rel="noopener noreferrer">
+              Open PDF
+            </a>
+          </Button>
+        </div>
+
+        {/* PDF Viewer */}
+        <div className="flex-1 w-full overflow-hidden">
+          {isGdrive ? (
+            // Google Drive: use iframe with /preview URL (works for "Anyone with link" files)
+            <iframe
+              src={embedUrl}
+              className="w-full h-full border-none"
+              title={award.title}
+              allow="autoplay"
+            />
+          ) : (
+            // Direct PDF URL: use native browser object renderer
+            <object
+              data={embedUrl}
+              type="application/pdf"
+              className="w-full h-full"
+              aria-label={award.title}
+            >
+              <embed src={embedUrl} type="application/pdf" className="w-full h-full" />
+              <div className="flex flex-col items-center justify-center h-full text-white gap-4 p-8 text-center">
+                <p className="text-lg font-semibold">Your browser cannot display PDFs inline.</p>
+                <Button asChild variant="default">
+                  <a href={award.pdfUrl} target="_blank" rel="noopener noreferrer">
+                    Open PDF in new tab
+                  </a>
+                </Button>
+              </div>
+            </object>
+          )}
+        </div>
       </div>
     );
   }
