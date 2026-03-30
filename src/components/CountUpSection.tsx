@@ -4,7 +4,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const FACTS: FactItem[] = [
   { value: 190, label: "Members", suffix: "+" },
-  { value: 280, label: "Events", suffix: "+" },
+  { value: 300, label: "Events", suffix: "+" },
   { value: 25, label: "Awards", suffix: "+" },
   { value: 5700, label: "Participations", suffix: "+" },
 ];
@@ -90,7 +90,7 @@ export default function CountUpSection() {
             <div
               key={index}
               className={`reveal pop delay-${index + 1} text-center p-6 glass rounded-2xl shadow-lg border border-primary/10 relative overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm`}
-              style={{ 
+              style={{
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden'
               }}
