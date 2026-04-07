@@ -1,4 +1,5 @@
 import express from "express";
+import helmet from "helmet";
 import { createTransport } from "nodemailer";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -8,6 +9,7 @@ import path from "path";
 dotenv.config(); // initial load
 
 const app = express();
+app.use(helmet());
 const PORT = process.env.PORT || 3001;
 
 // Simple in-memory rate limiter: 5 requests per 15 minutes per IP
