@@ -5,6 +5,25 @@
  * warnings and mask asset sources.
  */
 
+function buildValidatedUrl(imageUrl: string): string {
+  try {
+    const url = new URL(imageUrl);
+    
+    const allowedDomains = ['example.com']; // add your allowed domains here
+    if (!allowedDomains.includes(url.hostname)) {
+      throw new Error('Invalid host');
+    }
+    
+    if (!['http:', 'https:'].includes(url.protocol)) {
+      throw new Error('Invalid protocol');
+    }
+    
+    return url.href;
+  } catch {
+    throw new Error('Invalid URL');
+  }
+}
+
 export const onRequestGet: PagesFunction = async (context) => {
   const { request } = context;
   const url = new URL(request.url);
@@ -15,7 +34,8 @@ export const onRequestGet: PagesFunction = async (context) => {
   }
 
   try {
-    const response = await fetch(imageUrl);
+    const validatedUrl = buildValidatedUrl(imageUrl);
+    const response = await fetch(validatedUrl);
     if (!response.ok) throw new Error("Fetch failed");
 
     const contentType = response.headers.get("content-type");
